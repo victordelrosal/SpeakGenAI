@@ -205,6 +205,45 @@
       background: rgba(0, 0, 0, 0.3);
       color: var(--color-green);
     }
+
+    .level-banner {
+      position: relative;
+      backdrop-filter: blur(10px);
+      background-image: linear-gradient(to bottom, rgba(255, 138, 48, 0.6), rgba(240, 96, 29, 0.6));
+      padding: 1rem;
+      overflow: hidden;
+      border-bottom: 1px solid #ffeca8;
+      box-shadow: 0 0 70px rgba(255, 138, 48, 0.6), 0 5px 20px rgba(255, 138, 48, 0.6);
+    }
+
+    .level-banner:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 236, 168, 0.2), transparent);
+      transform: translateX(-100%);
+      animation: shimmer 3s infinite;
+    }
+
+    .level-title {
+      font-family: sans-serif;
+      font-size: 2rem;
+      font-weight: 600;
+      color: #ffeca8;
+      text-transform: uppercase;
+      text-shadow: 0 0 20px #ffeca8;
+      transform: skewX(-10deg);
+      animation: breath2 2s 0.5s infinite alternate;
+    }
+
+    @keyframes shimmer {
+      100% {
+        transform: translateX(100%);
+      }
+    }
   </style>
 </head>
 <body class="bg-gray-900 text-white">
@@ -393,9 +432,9 @@
 
       return (
         <div className="min-h-screen flex flex-col">
-          {/* Navbar with Gradient */}
-          <div className="p-4 text-center" style={{ background: getGradientStyle() }}>
-            <h1 className="text-3xl font-extrabold text-white level-header">
+          {/* Updated Level Banner */}
+          <div className="level-banner">
+            <h1 className="level-title text-center">
               Level {currentLevel}
             </h1>
           </div>

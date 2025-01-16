@@ -551,20 +551,21 @@
               />
 
               <div className="flex gap-4">
-                <button
-                  onClick={submitPrompt}
-                  disabled={isEvaluating}
-                  className="button fire"
-                >
-                  Submit Prompt
-                </button>
-
-                {score >= passThreshold && (
+                {!showCongratulations ? (
+                  <button
+                    onClick={submitPrompt}
+                    disabled={isEvaluating}
+                    className="button"
+                  >
+                    Submit Prompt
+                  </button>
+                ) : (
                   <button
                     onClick={advanceToNextLevel}
-                    className="button ice"
+                    className="congratulations text-center text-xl font-bold"
+                    style={{ width: '200px', height: 'auto' }}
                   >
-                    Next Level
+                    <span className="relative z-10">Congratulations 🎉!</span>
                   </button>
                 )}
               </div>
@@ -572,12 +573,6 @@
               {feedback && (
                 <div className="bg-gray-800 border border-cyan-500/20 p-4 rounded-lg">
                   <p className="text-gray-300">{feedback}</p>
-                </div>
-              )}
-
-              {showCongratulations && (
-                <div className="congratulations text-center text-xl font-bold p-4">
-                  <span className="relative z-10">Congratulations 🎉! Click "Next Level" to continue your journey.</span>
                 </div>
               )}
             </div>

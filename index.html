@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prompt Trainer</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗣️</text></svg>">
   <!-- React and ReactDOM -->
   <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
@@ -23,6 +24,9 @@
     }
     .congratulations {
       animation: fadeInScale 1s ease-in-out;
+    }
+    .level-header {
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
   </style>
 </head>
@@ -96,7 +100,7 @@
         <div className="min-h-screen flex flex-col">
           {/* Navbar with Gradient */}
           <div className="p-4 text-center" style={{ background: getGradientStyle() }}>
-            <h1 className="text-3xl font-extrabold text-white">
+            <h1 className="text-3xl font-extrabold text-white level-header">
               Level {currentLevel}
             </h1>
           </div>

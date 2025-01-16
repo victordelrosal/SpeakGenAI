@@ -244,6 +244,52 @@
         transform: translateX(100%);
       }
     }
+
+    /* Add new toggle styles after existing styles */
+    .toggle-button {
+      backdrop-filter: blur(10px);
+      transform: skewX(-10deg);
+      border-radius: 15px 3px 15px 3px;
+      position: relative;
+      transition: all 0.3s ease;
+      font-family: sans-serif;
+      text-shadow: 0 0 20px #fff;
+      text-transform: uppercase;
+      animation: breath2 2s 0.5s infinite alternate;
+      padding: 0.5rem 1rem;
+      width: 100%;
+      border: 1px solid #a8ecff;
+    }
+
+    .toggle-button:before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 10px;
+      right: 10px;
+      bottom: 3px;
+      border: 1px solid rgba(168, 236, 255, 0.3);
+      border-radius: 12px 2px 12px 2px;
+      animation: breath 2s infinite alternate;
+    }
+
+    .toggle-button {
+      background-image: linear-gradient(to bottom, rgba(48, 138, 255, 0.2), rgba(29, 96, 240, 0.2));
+      box-shadow: 0 0 30px rgba(48, 138, 255, 0.3), 0 5px 15px rgba(48, 138, 255, 0.2);
+    }
+
+    .toggle-button:hover {
+      box-shadow: 0 0 40px rgba(48, 138, 255, 0.4), 0 5px 20px rgba(48, 138, 255, 0.3);
+    }
+
+    .toggle-content {
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(168, 236, 255, 0.1);
+      border-radius: 10px;
+      margin-top: 0.5rem;
+      padding: 1rem;
+    }
   </style>
 </head>
 <body class="bg-gray-900 text-white">
@@ -359,12 +405,12 @@
         const [isOpen, setIsOpen] = React.useState(false);
         
         return (
-          <div className="bg-gray-800 p-4 rounded-lg border border-cyan-500/20">
+          <div className="bg-gray-800/50 p-4 rounded-lg backdrop-blur-md">
             <button 
               onClick={() => setIsOpen(!isOpen)}
-              className="w-full flex items-center justify-between text-xl font-bold text-cyan-500 mb-3"
+              className="toggle-button flex items-center justify-between"
             >
-              <span>Learning Objectives</span>
+              <span className="text-xl font-bold text-cyan-300">Learning Objectives</span>
               <svg 
                 className={`w-6 h-6 transform transition-transform ${isOpen ? 'rotate-180' : ''}`}
                 fill="none" 
@@ -375,12 +421,14 @@
               </svg>
             </button>
             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-              <p className="text-white mb-2">{objective.primary}</p>
-              <ul className="list-disc list-inside text-gray-300">
-                {objective.subObjectives.map((sub, index) => (
-                  <li key={index} className="ml-4">{sub}</li>
-                ))}
-              </ul>
+              <div className="toggle-content">
+                <p className="text-cyan-100 mb-2">{objective.primary}</p>
+                <ul className="list-disc list-inside text-cyan-200/80">
+                  {objective.subObjectives.map((sub, index) => (
+                    <li key={index} className="ml-4">{sub}</li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         );
@@ -390,12 +438,12 @@
         const [isOpen, setIsOpen] = React.useState(false);
 
         return (
-          <div className="bg-gray-800 p-4 rounded-lg border border-cyan-500/20">
+          <div className="bg-gray-800/50 p-4 rounded-lg backdrop-blur-md">
             <button 
               onClick={() => setIsOpen(!isOpen)}
-              className="w-full flex items-center justify-between text-xl font-bold text-cyan-500 mb-3"
+              className="toggle-button flex items-center justify-between"
             >
-              <span>Evaluation Criteria</span>
+              <span className="text-xl font-bold text-cyan-300">Evaluation Criteria</span>
               <svg 
                 className={`w-6 h-6 transform transition-transform ${isOpen ? 'rotate-180' : ''}`}
                 fill="none" 
@@ -406,21 +454,23 @@
               </svg>
             </button>
             <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-              {Object.entries(rubric.categories).map(([key, category]) => (
-                <div key={key} className="mb-4">
-                  <h3 className="text-white font-semibold mb-2 capitalize">
-                    {key} ({Math.round(category.weight * 100)}%)
-                  </h3>
-                  <p className="text-gray-400 text-sm mb-2">{category.description}</p>
-                  <div className="grid grid-cols-2 gap-2">
-                    {category.criteria.map((criterion, index) => (
-                      <div key={index} className="text-gray-300 text-sm">
-                        • {criterion.name} ({criterion.points}pts)
-                      </div>
-                    ))}
+              <div className="toggle-content">
+                {Object.entries(rubric.categories).map(([key, category]) => (
+                  <div key={key} className="mb-4">
+                    <h3 className="text-cyan-200 font-semibold mb-2 capitalize">
+                      {key} ({Math.round(category.weight * 100)}%)
+                    </h3>
+                    <p className="text-cyan-300/70 text-sm mb-2">{category.description}</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {category.criteria.map((criterion, index) => (
+                        <div key={index} className="text-cyan-200/60 text-sm">
+                          • {criterion.name} ({criterion.points}pts)
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         );

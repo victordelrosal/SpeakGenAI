@@ -1,0 +1,136 @@
+{
+  "id": "LEVEL_001",
+  "level": 1,
+  "title": "Basic Instruction Writing",
+  "description": "Learn to write clear, single-task instructions for AI systems",
+  "learningObjective": {
+    "primary": "Master the fundamentals of writing clear, unambiguous instructions",
+    "subObjectives": [
+      "Understand the importance of explicit task definition",
+      "Learn to eliminate ambiguous language",
+      "Practice writing focused, single-purpose prompts"
+    ]
+  },
+  "promptRubric": {
+    "totalPoints": 100,
+    "passingThreshold": 60,
+    "categories": {
+      "clarity": {
+        "weight": 0.4,
+        "description": "How clear and unambiguous is the instruction",
+        "criteria": [
+          {
+            "name": "Task Definition",
+            "points": 10,
+            "description": "Task is explicitly stated in the first sentence"
+          },
+          {
+            "name": "Language Clarity",
+            "points": 10,
+            "description": "Uses simple, direct language without ambiguous pronouns"
+          },
+          {
+            "name": "Single Focus",
+            "points": 10,
+            "description": "Maintains focus on one clear task or objective"
+          },
+          {
+            "name": "Logical Flow",
+            "points": 10,
+            "description": "Information is presented in a logical sequence"
+          }
+        ]
+      },
+      "specificity": {
+        "weight": 0.4,
+        "description": "How specific and detailed are the requirements",
+        "criteria": [
+          {
+            "name": "Output Format",
+            "points": 10,
+            "description": "Clearly specifies the desired output format"
+          },
+          {
+            "name": "Parameters",
+            "points": 10,
+            "description": "Defines any necessary parameters or constraints"
+          },
+          {
+            "name": "Context",
+            "points": 10,
+            "description": "Provides relevant context needed for the task"
+          },
+          {
+            "name": "Success Criteria",
+            "points": 10,
+            "description": "Indicates how to determine if the output is successful"
+          }
+        ]
+      },
+      "conciseness": {
+        "weight": 0.2,
+        "description": "How efficiently the instruction is communicated",
+        "criteria": [
+          {
+            "name": "Word Economy",
+            "points": 10,
+            "description": "Uses minimal necessary words to convey instruction"
+          },
+          {
+            "name": "Information Density",
+            "points": 10,
+            "description": "Avoids redundant or unnecessary information"
+          }
+        ]
+      }
+    }
+  },
+  "sampleCorrectPrompts": [
+    {
+      "prompt": "Summarize the main points of this article in 3-5 bullet points, with each point being 1-2 sentences long.",
+      "score": 95,
+      "analysis": {
+        "strengths": [
+          "Clearly specifies the task (summarize)",
+          "Defines exact output format (bullet points)",
+          "Specifies quantity (3-5 points)",
+          "Sets length constraints (1-2 sentences per point)"
+        ],
+        "explanation": "This prompt succeeds because it provides clear, specific instructions about both the task and the desired output format while remaining concise."
+      }
+    },
+    {
+      "prompt": "Create a step-by-step guide for making coffee using a French press. Include exactly 6 steps, with each step being one clear action.",
+      "score": 92,
+      "analysis": {
+        "strengths": [
+          "States specific task (create guide)",
+          "Defines format (step-by-step)",
+          "Specifies number of steps (6)",
+          "Sets content constraint (one action per step)"
+        ],
+        "explanation": "This prompt effectively combines clarity and specificity while maintaining a single focus and providing clear structural requirements."
+      }
+    }
+  ],
+  "commonMistakes": [
+    {
+      "type": "Ambiguity",
+      "example": "Make this better.",
+      "problem": "No clear definition of 'better' or what aspect needs improvement",
+      "improvement": "Revise this text to improve clarity by using shorter sentences and simpler vocabulary."
+    },
+    {
+      "type": "Overcomplication",
+      "example": "I want you to analyze this, then summarize it, then create an outline, and also maybe add some examples if you can.",
+      "problem": "Multiple competing tasks with unclear priorities and optional elements",
+      "improvement": "Analyze this text and create a bulleted summary of the main arguments, limited to 5 key points."
+    }
+  ],
+  "tips": [
+    "Start with the main task verb (Create, Write, Analyze, etc.)",
+    "Specify any numerical requirements upfront",
+    "Define the output format clearly",
+    "Include any crucial constraints or limitations"
+  ]
+}

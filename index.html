@@ -96,6 +96,82 @@
         setFeedback("");
       };
 
+      const [levelData, setLevelData] = React.useState({
+        learningObjective: {
+          primary: "Master the fundamentals of writing clear, unambiguous instructions",
+          subObjectives: [
+            "Understand the importance of explicit task definition",
+            "Learn to eliminate ambiguous language",
+            "Practice writing focused, single-purpose prompts"
+          ]
+        },
+        promptRubric: {
+          categories: {
+            clarity: {
+              weight: 0.4,
+              description: "How clear and unambiguous is the instruction",
+              criteria: [
+                { name: "Task Definition", points: 10 },
+                { name: "Language Clarity", points: 10 },
+                { name: "Single Focus", points: 10 },
+                { name: "Logical Flow", points: 10 }
+              ]
+            },
+            specificity: {
+              weight: 0.4,
+              description: "How specific and detailed are the requirements",
+              criteria: [
+                { name: "Output Format", points: 10 },
+                { name: "Parameters", points: 10 },
+                { name: "Context", points: 10 },
+                { name: "Success Criteria", points: 10 }
+              ]
+            },
+            conciseness: {
+              weight: 0.2,
+              description: "How efficiently the instruction is communicated",
+              criteria: [
+                { name: "Word Economy", points: 10 },
+                { name: "Information Density", points: 10 }
+              ]
+            }
+          }
+        }
+      });
+
+      const LevelObjectives = ({ objective }) => (
+        <div className="bg-gray-800 p-4 rounded-lg border border-cyan-500/20">
+          <h2 className="text-xl font-bold text-cyan-500 mb-3">Learning Objectives</h2>
+          <p className="text-white mb-2">{objective.primary}</p>
+          <ul className="list-disc list-inside text-gray-300">
+            {objective.subObjectives.map((sub, index) => (
+              <li key={index} className="ml-4">{sub}</li>
+            ))}
+          </ul>
+        </div>
+      );
+
+      const RubricCriteria = ({ rubric }) => (
+        <div className="bg-gray-800 p-4 rounded-lg border border-cyan-500/20">
+          <h2 className="text-xl font-bold text-cyan-500 mb-3">Evaluation Criteria</h2>
+          {Object.entries(rubric.categories).map(([key, category]) => (
+            <div key={key} className="mb-4">
+              <h3 className="text-white font-semibold mb-2 capitalize">
+                {key} ({Math.round(category.weight * 100)}%)
+              </h3>
+              <p className="text-gray-400 text-sm mb-2">{category.description}</p>
+              <div className="grid grid-cols-2 gap-2">
+                {category.criteria.map((criterion, index) => (
+                  <div key={index} className="text-gray-300 text-sm">
+                    • {criterion.name} ({criterion.points}pts)
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+
       return (
         <div className="min-h-screen flex flex-col">
           {/* Navbar with Gradient */}
@@ -137,6 +213,12 @@
                   {currentLevel}/100
                 </div>
               </div>
+            </div>
+
+            {/* Level Objectives and Rubric */}
+            <div className="grid md:grid-cols-2 gap-4 mt-4">
+              <LevelObjectives objective={levelData.learningObjective} />
+              <RubricCriteria rubric={levelData.promptRubric} />
             </div>
           </div>
 

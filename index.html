@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt Trainer</title>
+  <!-- React and ReactDOM -->
+  <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script crossorigin src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeInScale {
+      0% {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    .congratulations {
+      animation: fadeInScale 1s ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const PromptTrainer = () => {
+      const [currentLevel, setCurrentLevel] = React.useState(1);
+      const [score, setScore] = React.useState(0);
+      const [feedback, setFeedback] = React.useState("");
+      const [userPrompt, setUserPrompt] = React.useState("");
+      const [isEvaluating, setIsEvaluating] = React.useState(false);
+      const [showCongratulations, setShowCongratulations] = React.useState(false);
+
+      const passThreshold = 60;
+
+      const gradientSets = [
+        ["#FFD700", "#FFA500", "#FF6347"], // Levels 1–10 (Yellow-Orange-Red)
+        ["#FF4500", "#FF6347", "#FFD700"], // Levels 11–20 (Orange-Red-Yellow)
+        ["#1E90FF", "#00CED1", "#20B2AA"], // Levels 21–30 (Blue-Turquoise)
+        ["#32CD32", "#7CFC00", "#ADFF2F"], // Levels 31–40 (Green-Lime)
+        ["#9400D3", "#8A2BE2", "#FF00FF"], // Levels 41–50 (Purple-Pink)
+      ];
+
+      const currentSet = gradientSets[Math.floor((currentLevel - 1) / 10) % gradientSets.length];
+
+      const getGradientStyle = () => {
+        const step = (currentLevel - 1) % 10;
+        const percentage1 = Math.min(100, step * 10);
+        const percentage2 = Math.min(100, (step + 3) * 10);
+        return `linear-gradient(to right, ${currentSet[0]} ${percentage1}%, ${currentSet[1]} ${percentage2}%, ${currentSet[2]} 100%)`;
+      };
+
+      const submitPrompt = async () => {
+        if (!userPrompt.trim()) {
+          setFeedback("Please enter a prompt.");
+          return;
+        }
+
+        setIsEvaluating(true);
+        setFeedback("Evaluating prompt...");
+
+        setTimeout(() => {
+          const scoreValue = Math.floor(Math.random() * 100) + 1;
+          const feedbackText = `Your prompt demonstrates ${scoreValue >= passThreshold ? 'strong' : 'some'} understanding of effective communication with AI. ${
+            scoreValue >= passThreshold
+              ? 'The specificity and clarity make it highly effective.'
+              : 'Consider being more specific and clear in your instructions.'
+          }`;
+
+          setScore(scoreValue);
+          setFeedback(feedbackText);
+          setIsEvaluating(false);
+
+          if (scoreValue >= passThreshold) {
+            setShowCongratulations(true);
+            setTimeout(() => setShowCongratulations(false), 2000); // Hide after 2 seconds
+          }
+        }, 1500);
+      };
+
+      const advanceToNextLevel = () => {
+        setCurrentLevel((prev) => prev + 1);
+        setUserPrompt("");
+        setScore(0);
+        setFeedback("");
+      };
+
+      return (
+        <div className="min-h-screen flex flex-col">
+          {/* Navbar with Gradient */}
+          <div className="p-4 text-center" style={{ background: getGradientStyle() }}>
+            <h1 className="text-3xl font-extrabold text-white">
+              Level {currentLevel}
+            </h1>
+          </div>
+
+          {/* Progress Bars */}
+          <div className="p-4">
+            <div className="w-full bg-gray-800 rounded-full h-4 mb-4">
+              <div
+                className="bg-gradient-to-r from-cyan-500 to-blue-500 h-4 rounded-full"
+                style={{ width: `${(currentLevel % 10) * 10}%` }}
+              ></div>
+            </div>
+            <div className="flex justify-center items-center">
+              <div className="relative w-24 h-24">
+                <svg className="w-full h-full" viewBox="0 0 36 36">
+                  <path
+                    className="text-gray-800 stroke-current"
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831
+                      a 15.9155 15.9155 0 0 1 0 -31.831"
+                    fill="none"
+                    strokeWidth="3"
+                  />
+                  <path
+                    className="text-cyan-500 stroke-current"
+                    d="M18 2.0845
+                      a 15.9155 15.9155 0 0 1 0 31.831"
+                    fill="none"
+                    strokeDasharray={`${(currentLevel / 100) * 100}, 100`}
+                    strokeWidth="3"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center text-lg font-bold text-cyan-500">
+                  {currentLevel}/100
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Split Screen Layout */}
+          <div className="flex flex-col h-full md:flex-row">
+            {/* Video Section */}
+            <div className="flex-1 bg-gray-800 border-b border-cyan-500/20 md:border-b-0 md:border-r">
+              <video controls className="w-full h-full object-cover">
+                <source src="instructional-video.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+
+            {/* Prompt Section */}
+            <div className="flex-1 flex flex-col p-4 space-y-4">
+              <textarea
+                value={userPrompt}
+                onChange={(e) => setUserPrompt(e.target.value)}
+                placeholder="Type your prompt here..."
+                className="w-full h-32 p-4 rounded-lg bg-gray-800 text-white border border-cyan-500/20 focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition-colors resize-none"
+              />
+
+              <div className="flex gap-4">
+                <button
+                  onClick={submitPrompt}
+                  disabled={isEvaluating}
+                  className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-black font-bold py-2 px-4 rounded-lg"
+                >
+                  Submit Prompt
+                </button>
+
+                {score >= passThreshold && (
+                  <button
+                    onClick={advanceToNextLevel}
+                    className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-black font-bold py-2 px-4 rounded-lg"
+                  >
+                    Next Level
+                  </button>
+                )}
+              </div>
+
+              {feedback && (
+                <div className="bg-gray-800 border border-cyan-500/20 p-4 rounded-lg">
+                  <p className="text-gray-300">{feedback}</p>
+                </div>
+              )}
+
+              {showCongratulations && (
+                <div className="congratulations text-center text-2xl font-bold text-green-400">
+                  Congratulations 🥳! You have advanced to the next level.
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Footer */}
+          <footer className="bg-gray-800 border-t border-cyan-500/20 p-4 text-center text-gray-400">
+            Level {currentLevel} of 100
+          </footer>
+        </div>
+      );
+    };
+
+    ReactDOM.render(<PromptTrainer />, document.getElementById("root"));
+  </script>
+</body>
+</html>

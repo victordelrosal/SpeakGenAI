@@ -139,38 +139,76 @@
         }
       });
 
-      const LevelObjectives = ({ objective }) => (
-        <div className="bg-gray-800 p-4 rounded-lg border border-cyan-500/20">
-          <h2 className="text-xl font-bold text-cyan-500 mb-3">Learning Objectives</h2>
-          <p className="text-white mb-2">{objective.primary}</p>
-          <ul className="list-disc list-inside text-gray-300">
-            {objective.subObjectives.map((sub, index) => (
-              <li key={index} className="ml-4">{sub}</li>
-            ))}
-          </ul>
-        </div>
-      );
-
-      const RubricCriteria = ({ rubric }) => (
-        <div className="bg-gray-800 p-4 rounded-lg border border-cyan-500/20">
-          <h2 className="text-xl font-bold text-cyan-500 mb-3">Evaluation Criteria</h2>
-          {Object.entries(rubric.categories).map(([key, category]) => (
-            <div key={key} className="mb-4">
-              <h3 className="text-white font-semibold mb-2 capitalize">
-                {key} ({Math.round(category.weight * 100)}%)
-              </h3>
-              <p className="text-gray-400 text-sm mb-2">{category.description}</p>
-              <div className="grid grid-cols-2 gap-2">
-                {category.criteria.map((criterion, index) => (
-                  <div key={index} className="text-gray-300 text-sm">
-                    • {criterion.name} ({criterion.points}pts)
-                  </div>
+      const LevelObjectives = ({ objective }) => {
+        const [isOpen, setIsOpen] = React.useState(false);
+        
+        return (
+          <div className="bg-gray-800 p-4 rounded-lg border border-cyan-500/20">
+            <button 
+              onClick={() => setIsOpen(!isOpen)}
+              className="w-full flex items-center justify-between text-xl font-bold text-cyan-500 mb-3"
+            >
+              <span>Learning Objectives</span>
+              <svg 
+                className={`w-6 h-6 transform transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+              <p className="text-white mb-2">{objective.primary}</p>
+              <ul className="list-disc list-inside text-gray-300">
+                {objective.subObjectives.map((sub, index) => (
+                  <li key={index} className="ml-4">{sub}</li>
                 ))}
-              </div>
+              </ul>
             </div>
-          ))}
-        </div>
-      );
+          </div>
+        );
+      };
+
+      const RubricCriteria = ({ rubric }) => {
+        const [isOpen, setIsOpen] = React.useState(false);
+
+        return (
+          <div className="bg-gray-800 p-4 rounded-lg border border-cyan-500/20">
+            <button 
+              onClick={() => setIsOpen(!isOpen)}
+              className="w-full flex items-center justify-between text-xl font-bold text-cyan-500 mb-3"
+            >
+              <span>Evaluation Criteria</span>
+              <svg 
+                className={`w-6 h-6 transform transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+              {Object.entries(rubric.categories).map(([key, category]) => (
+                <div key={key} className="mb-4">
+                  <h3 className="text-white font-semibold mb-2 capitalize">
+                    {key} ({Math.round(category.weight * 100)}%)
+                  </h3>
+                  <p className="text-gray-400 text-sm mb-2">{category.description}</p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {category.criteria.map((criterion, index) => (
+                      <div key={index} className="text-gray-300 text-sm">
+                        • {criterion.name} ({criterion.points}pts)
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      };
 
       const formatLevelNumber = (level) => {
         return level.toString().padStart(2, '0');

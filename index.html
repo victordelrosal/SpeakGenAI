@@ -33,7 +33,7 @@
       --size-default: 22px;
       --size-sm: 16px;
       --color-cyan: #06b6d4;
-      --color-green: #22c55e;
+      --color-green: #58DD93;
       --color-black: #000;
     }
 
@@ -44,14 +44,16 @@
     }
     @property --glowColor {
       syntax: "<color>";
-      initial-value: #06b6d4;
+      initial-value: #58DD93;
     }
     @keyframes rotate {
       0% {
         --angle: 0deg;
+        --glowColor: var(--color-green);
       }
       100% {
         --angle: 360deg;
+        --glowColor: var(--color-green);
       }
     }
 
@@ -94,7 +96,7 @@
       width: 100%;
       padding: var(--size-sm) var(--size-default);
       border-radius: 100px;
-      color: var(--glowColor);
+      color: var(--color-green);
       font-weight: 500;
       font-size: 22px;
       z-index: 1;
@@ -104,22 +106,19 @@
       backface-visibility: hidden;
     }
     .btn:hover .btnInner {
-      background: rgba(6, 182, 212, 0.1);
-      color: #06b6d4;
+      background: rgba(88, 221, 147, 0.1);
+      color: #adeeca;
     }
     .btn:active {
       transform: scale(0.95);
     }
-    .btn.green {
-      --glowColor: var(--color-green);
-    }
-    .btn.green:hover .btnInner {
-      background: rgba(34, 197, 94, 0.1);
-      color: #22c55e;
-    }
     .btn:disabled {
       opacity: 0.5;
       cursor: not-allowed;
+    }
+    .btn:disabled:hover .btnInner {
+      background: rgba(0, 0, 0, 0.3);
+      color: var(--color-green);
     }
   </style>
 </head>
@@ -386,6 +385,7 @@
                   onClick={submitPrompt}
                   disabled={isEvaluating}
                   className="btn"
+                  style={{ '--glowColor': '#58DD93' }}
                 >
                   <span className="btnInner">Submit Prompt</span>
                 </button>
@@ -393,7 +393,8 @@
                 {score >= passThreshold && (
                   <button
                     onClick={advanceToNextLevel}
-                    className="btn green"
+                    className="btn"
+                    style={{ '--glowColor': '#58DD93' }}
                   >
                     <span className="btnInner">Next Level</span>
                   </button>

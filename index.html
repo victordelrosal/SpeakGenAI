@@ -172,6 +172,10 @@
         </div>
       );
 
+      const formatLevelNumber = (level) => {
+        return level.toString().padStart(2, '0');
+      };
+
       return (
         <div className="min-h-screen flex flex-col">
           {/* Navbar with Gradient */}
@@ -226,8 +230,13 @@
           <div className="flex flex-col h-full md:flex-row">
             {/* Video Section */}
             <div className="flex-1 bg-gray-800 border-b border-cyan-500/20 md:border-b-0 md:border-r">
-              <video controls className="w-full h-full object-cover">
-                <source src="instructional-video.mp4" type="video/mp4" />
+              <video 
+                controls 
+                className="w-full h-full object-cover"
+                key={currentLevel} // Force video reload when level changes
+                autoPlay
+              >
+                <source src={`levels/${formatLevelNumber(currentLevel)}.mp4`} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             </div>
